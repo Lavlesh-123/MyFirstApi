@@ -1,8 +1,9 @@
 import 'package:vania/vania.dart';
 
 class HomeController extends Controller {
+
   Future<Response> index() async {
-    return Response.json({'message': 'Hello Home'});
+    return Response.json({'message': 'Hello Lavlesh', 'code': 200}, 200);
   }
 
   Future<Response> create() async {

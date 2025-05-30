@@ -12,5 +12,6 @@ class RouteServiceProvider extends ServiceProvider {
     WebRoute().register();
     ApiRoute().register();
     WebSocketRoute().register();
+    
   }
 }

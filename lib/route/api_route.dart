@@ -1,5 +1,5 @@
+import 'package:furniture_api/app/http/controllers/auth_controller.dart';
 import 'package:vania/vania.dart';
-import 'package:furniture_api/app/http/controllers/home_controller.dart';
 import 'package:furniture_api/app/http/middleware/authenticate.dart';
 import 'package:furniture_api/app/http/middleware/home_middleware.dart';
 import 'package:furniture_api/app/http/middleware/error_response_middleware.dart';
@@ -10,7 +10,7 @@ class ApiRoute implements Route {
     /// Base RoutePrefix
     Router.basePrefix('api');
 
-    Router.get("/home", homeController.index);
+    Router.post("/register", authController.register);
 
     Router.get("/hello-world", () {
       return Response.html('Hello World');
