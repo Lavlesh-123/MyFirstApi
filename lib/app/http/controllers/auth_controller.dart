@@ -1,11 +1,8 @@
-
 import 'package:furniture_api/app/models/user.dart';
 import 'package:vania/vania.dart';
 import 'package:vania/src/exception/validation_exception.dart';
 
 class AuthController extends Controller {
- 
-
   Future<Response> register(Request request) async {
     try {
       await request.validate({
@@ -21,8 +18,6 @@ class AuthController extends Controller {
         'password.required': 'Password is required',
         'password.string': 'Password must be a string',
       });
-
-    
     } catch (e) {
       if (e is ValidationException) {
         var errorMessage = e.message;
@@ -61,7 +56,7 @@ class AuthController extends Controller {
         "avatar": null,
         "description": "No user content found",
         "phone": request.input('phone', 'null'),
-        "birthday": request.input('birthday',null),
+        "birthday": request.input('birthday', null),
         "gender": request.input('gender', null),
         "created_at": DateTime.now().toIso8601String(),
         "updated_at": DateTime.now().toIso8601String(),
@@ -109,7 +104,6 @@ class AuthController extends Controller {
     }
 
     try {
-      final name = request.input('name');
       final email = request.input('email');
       var password = request.input('password');
       print('Email: $email, Password: $password');
@@ -123,41 +117,18 @@ class AuthController extends Controller {
 
       // Verify password
       if (!Hash().verify(password, user['password'])) {
-        return Response.json({
-          "msg": "Your email or password is wrong",
-          "code": 401,
-          "data": ""
-        }, 401);
+        return Response.json(
+            {"msg": "Your email or password is wrong", "code": 401, "data": ""},
+            401);
       }
-
-      // Serialize user to remove DateTime fields
-      Map<String, dynamic> userData = user;
-      print('Serialized userData: $userData');
-
-      // Filter out DateTime fields for Auth().login
-      Map<String, dynamic> loginData = Map.from(userData)
-        ..remove('created_at')
-        ..remove('updated_at')
-        ..remove('deleted_at');
-      print('Login data for Auth: $loginData');
-
-      final auth = Auth().login(loginData);
-      // final token = await auth.createToken(expiresIn: Duration(days: 30));
-      // print('Token: $token (Type: ${token.runtimeType})');
-
-      // Serialize token
-      // final tokenData = token;
-      // print('Serialized tokenData: $tokenData');
 
       return Response.json(
           {"code": 200, "msg": "Login successful", "data": 'tokenData'}, 200);
     } catch (e) {
       print('Error during login: $e');
-      return Response.json({
-        "msg": "An unexpected error during login",
-        "code": 500,
-        "data": ""
-      }, 500);
+      return Response.json(
+          {"msg": "An unexpected error during login", "code": 500, "data": ""},
+          500);
     }
   }
 }
